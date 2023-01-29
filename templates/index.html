@@ -1,0 +1,34 @@
+{% extends "./base.html" %}
+{% load static %}
+{% load produse_extras %}
+{% block head %}
+<title>Pagină principală - Florărie Mon Jardin</title>
+ <style>
+#info-block {
+    background-image: url( "{% static 'main-background.jpg' %}");
+}
+</style>
+{% endblock head %}
+{% block content %}
+<div id="info-block">
+	<h3>Respiră acasă</h3>
+	<p>Cea mai variată alegere de plante din România !</p>
+</div>
+{% if produse_promotii|length > 0 %}
+<h3>Produse în promoție acum</h3>
+<ul class="product-list">
+{% for produs in produse_promotii %}
+{% include 'bloc_produs.html' %}
+{% endfor %}
+</ul>
+{% endif %}
+<h3>Selecție de produse</h3>
+{% if produse_promotii|length == 0 %}
+<p>Momentan, nu avem niciun produs în promoție, dar vă propunem următoarea selecție de produse.</p>
+{% endif %}
+<ul class="product-list">
+{% for produs in produse %}
+{% include 'bloc_produs.html' %}
+{% endfor %}
+</ul>
+{% endblock content %}

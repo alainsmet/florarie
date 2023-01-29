@@ -1,0 +1,19 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block head %}
+<title>Plată - Florărie Mon Jardin</title>
+{% endblock head %}
+{% block breadcrumb %}
+<ul id="breadcrumb">
+	<li><a href="{% url 'index' %}" title="Acasă">Acasă</a></li>
+	<li>Plată</li>
+</ul>
+{% endblock breadcrumb %}
+{% block content %}
+<h3>Selectați un mod de plată</h3>
+<form method="post" class="form-block">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit" class="submit-button">Plătește</button>
+</form>
+{% endblock content %}

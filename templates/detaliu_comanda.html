@@ -1,0 +1,67 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block head %}
+<title>Comanda {{comanda.referinta}} - Florărie Mon Jardin</title>
+{% endblock head %}
+{% block breadcrumb %}
+<ul id="breadcrumb">
+	<li><a href="{% url 'index' %}" title="Acasă">Acasă</a></li>
+	<li><a href="{% url 'cont' %}" title="Contul meu">Contul meu</a></li>
+	<li>Comanda {{comanda.referinta}}</li>
+</ul>
+{% endblock breadcrumb %}
+{% block content %}
+<h3>Detaliul comenzii {{comanda.referinta}}</h3>
+<div class="order-top">
+<p>Comandă plasată pe : {{comanda.data_creare|date:'d.m.Y'}}</p>
+<p>Platită :
+{% if comanda.platita == True %}
+da (pe data de {{comanda.data_plata|date:'d.m.Y'}})
+{% else %}
+nu
+{% endif %}
+</p>
+<p>Livrată :
+{% if comanda.livrata == True %}
+da (pe data de {{comanda.data_livrare|date:'d.m.Y'}})
+{% else %}
+nu
+{% endif %}
+</p>
+</div>
+<div style="overflow-x:auto;">
+	<table class="cart-list">
+		<thead>
+			<th colspan="2">Produs</th>
+			<th class="cell-centered">Cantitate</th>
+			<th class="cell-right">Preț unitar</th>
+			<th class="cell-right">Preț</th>
+		</thead>
+		<tbody>
+		{% for produs in produse %}
+			<tr>
+				<td class="cell-pic">
+					<a href="{% url 'planta' produs.produs_id.url_norm produs.produs_id.id %}" title="{{produs.produs_id.nume}}">
+						<img src="{% static produs.produs_id.poza.url %}" alt="Poză {{produs.produs_id.nume | lower}}">
+					</a>
+				</td>
+				<td>
+					<a href="{% url 'planta' produs.produs_id.url_norm produs.produs_id.id %}" title="{{produs.produs_id.nume}}">
+						{{produs.produs_id.nume}}
+					</a>
+				</td>
+				<td class="cell-centered">{{produs.cantitate}}</td>
+				<td class="cell-right">{{produs.pret_unitar}}  lei/buc</td>
+				<td class="cell-right">{{produs.pret_total}} lei</td>
+			 </tr>
+		{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="4" class="cell-right">Preț total</td>
+				<td class="cell-right">{{comanda.pret_total}} lei</td>
+			</tr>
+		</tfoot>
+	</table>
+</div>
+{% endblock content %}

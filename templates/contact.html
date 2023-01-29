@@ -1,0 +1,45 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block head %}
+<title>Contact - Florărie Mon Jardin</title>
+<script>
+function initMap() {
+const bitacad = { lat: 44.433711, lng: 26.103921 };
+const map = new google.maps.Map(document.getElementById("map"), {
+  zoom: 18,
+  center: bitacad,
+});
+const marker = new google.maps.Marker({
+  position: bitacad,
+  map: map,
+});
+}
+</script>
+{% endblock head %}
+{% block breadcrumb %}
+<ul id="breadcrumb">
+	<li><a href="{% url 'index' %}" title="Acasă">Acasă</a></li>
+	<li>Contact</li>
+</ul>
+{% endblock breadcrumb %}
+{% block content %}
+<h3>Unde suntem ?</h3>
+<p>SC Mon Jardin SRL</p>
+<p>Strada Colței, 8</p>
+<p>București, Sector 3</p>
+<div id="map">
+</div>
+<h3>Cum să ne contactați ?</h3>
+<p>Puteți să ne contactați pe e-mail folosind formularul de mai jos.</p>
+<p>Câmpurile semnalate cu * trebuie completate.</p>
+<form name="contact-form" method="post" autocomplete="on" action="" id="contact-form">
+{% csrf_token %}
+{{ form }}
+	<button type="submit" class="submit-button">Trimite mesajul meu</button>
+</form>
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCr4UIWqQMO58cPpHXTLiqgPFQ5U9PqLMQ&callback=initMap&libraries=&v=weekly"
+      async
+    >
+</script>
+{% endblock content %}

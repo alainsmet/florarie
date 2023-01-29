@@ -1,0 +1,28 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block head %}
+<title>Autentificare - Florărie Mon Jardin</title>
+{% endblock head %}
+{% block breadcrumb %}
+<ul id="breadcrumb">
+	<li><a href="{% url 'index' %}" title="Acasă">Acasă</a></li>
+	<li>Contul meu</li>
+</ul>
+{% endblock breadcrumb %}
+{% block content %}
+<h3>Contul meu</h3>
+<div class="form-list">
+	<form method="post" class="form-block">
+		<h4>Logare în contul de utilizator</h4>
+		{% csrf_token %}
+		{{ formLogin.as_p }}
+		<button type="submit" name="login" class="submit-button">Logare</button>
+	</form>
+	<form method="post" class="form-block">
+		<h4>Creați acum un cont de client</h4>
+		{% csrf_token %}
+		{{ formSubs.as_p }}
+		<button type="submit" name="creare-cont" class="submit-button">Creați un cont de client</button>
+	</form>
+</div>
+{% endblock content %}

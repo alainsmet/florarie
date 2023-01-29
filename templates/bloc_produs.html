@@ -1,0 +1,37 @@
+{% load static %}
+{% load produse_extras %}
+{% if produs.nume != '' %}
+	<li class="product">
+		<a href="{% url 'planta' produs.url_norm produs.id %}" title="{{produs.nume}}">
+			<img src="{% static produs.poza.url %}" alt="Poză {{produs.nume | lower}}">
+		</a>
+		<a href="{% url 'planta' produs.url_norm produs.id %}" title="{{produs.nume}}">
+			<p>{{produs.nume}}</p>
+		</a>
+		{% if produs.pret_redus %}
+		<p class="reduced-price">{{produs.pret}} lei / buc.</p>
+		<p class="price">{{produs.pret_redus}} lei / buc. ({{produs.pret|calc_procent:produs.pret_redus}})</p>
+		{% else %}
+		<p class="price">{{produs.pret}} lei / buc.</p>
+		{% endif %}
+		{% if produs.stoc == 0 %}
+		<p class="unavailable">Produs indisponibil</p>
+		{% else %}
+		<p>Stoc : {{produs.stoc}}</p>
+		<p>
+			{% if tip == "promo" %}
+			<button class="spin-button-left" onclick="Decrement('value-prod-{{produs.id}}-promo')">-</button><input id="value-prod-{{produs.id}}-promo" class="quantity-input" type="text" value="1" min="1" max="{{produs.stoc}}" onkeydown="Check(event)" onkeyup="Check(event)" onchange="CheckValue(this, {{produs.stoc}},{% if produs.pret_redus %}{{produs.pret_redus}}{% else %}{{produs.pret}}{% endif %})"><button class="spin-button-right" onclick="Increment('value-prod-{{produs.id}}-promo',{{produs.stoc}})">+</button>
+			{% else %}
+			<button class="spin-button-left" onclick="Decrement('value-prod-{{produs.id}}')">-</button><input id="value-prod-{{produs.id}}" class="quantity-input" type="text" value="1" min="1" max="{{produs.stoc}}" onkeydown="Check(event)" onkeyup="Check(event)" onchange="CheckValue(this, {{produs.stoc}},{% if produs.pret_redus %}{{produs.pret_redus}}{% else %}{{produs.pret}}{% endif %})"><button class="spin-button-right" onclick="Increment('value-prod-{{produs.id}}',{{produs.stoc}})">+</button>
+			{% endif %}
+		</p>
+		<p>
+			{% if tip == "promo" %}
+			<button class="cart-button" id="button-prod-{{produs.id}}-promo" onclick="window.location.href='{% url 'adauga_cos' produs.id '1' %}';">Adaugă în coș</button>
+			{% else %}
+			<button class="cart-button" id="button-prod-{{produs.id}}" onclick="window.location.href='{% url 'adauga_cos' produs.id '1' %}';">Adaugă în coș</button>
+			{% endif %}
+		</p>
+		{% endif %}
+	</li>
+{% endif %}

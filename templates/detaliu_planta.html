@@ -1,0 +1,71 @@
+{% extends "./base.html" %}
+{% load static %}
+{% load produse_extras %}
+{% block head %}
+<title>{{produs.nume}} - Florărie Mon Jardin</title>
+{% endblock head %}
+{% block breadcrumb %}
+<ul id="breadcrumb">
+	<li><a href="{% url 'index' %}" title="Acasă">Acasă</a></li>
+	<li><a href="{% url 'plante' %}" title="Toate produsele">Toate produsele</a></li>
+	<li><a href="{% url 'categorie' produs.categorie.url_norm produs.categorie.id %}" title="{{produs.categorie}}">{{produs.categorie}}</a></li>
+	<li>{{produs.nume}}</li>
+</ul>
+{% endblock breadcrumb %}
+{% block content %}
+<h3>{{produs.nume}}</h3>
+<img src="{% static produs.poza.url %}" alt="Poză {{produs.nume | lower}}" class="product-pic">
+
+{% if produs.pret_redus %}
+<p class="price-detail">{{produs.pret_redus}} lei / buc. ({{produs.pret|calc_procent:produs.pret_redus}})</p>
+<ul class="promo-info">
+	<li>Produs în promoție</li>
+	<li>Preț inițial : <span class="reduced-price">{{produs.pret}} lei / buc.</span></li>
+	<li>Ofertă valabilă până : {{promotie.data_sfarsit|date:'d.m.Y'}}</li>
+	<li>Timp restant : {{promotie.data_sfarsit|timp_restant}}</li>
+</ul>
+{% else %}
+<p class="price-detail">{{produs.pret}} lei /buc.</p>
+{% endif %}
+
+{% if produs.stoc == 0 %}
+<p class="unavailable-detail">Produs indisponibil</p>
+{% else %}
+<p class="p-detail">
+{% if produs.stoc > 1 %}
+{{produs.stoc}} produse disponibile în stoc
+{% else %}
+Ultimul produs disponibil în stoc !
+{% endif %}
+</p>
+<p class="p-detail">Cantitate (buc.)</p>
+<button class="spin-button-left" onclick="Decrement('value-prod-{{produs.id}}',true)">-</button><input id="value-prod-{{produs.id}}" class="quantity-input" type="text" value="1" min="1" max="{{produs.stoc}}" onkeydown="Check(event)" onkeyup="Check(event)" onchange="CheckValue(this, {{produs.stoc}},{% if produs.pret_redus %}{{produs.pret_redus}}{% else %}{{produs.pret}}{% endif %},true)"><button class="spin-button-right" onclick="Increment('value-prod-{{produs.id}}',{{produs.stoc}},true)">+</button>
+{% if produs.pret_redus %}
+<p class="final-price">= {{produs.pret_redus}} lei</p>
+{% else %}
+<p class="final-price">= {{produs.pret}} lei</p>
+{% endif %}
+<button class="cart-detail-button" id="button-prod-{{produs.id}}" onclick="window.location.href='{% url 'adauga_cos' produs.id '1' %}';">Adaugă în coș</button>
+{% endif %}
+<h4>Descriere</h4>
+<p>{{produs.descriere|safe|linebreaksbr}}</p>
+<h4>Detalii produs</h4>
+<table>
+	<tr>
+		<th>Denumire</th>
+		<td>{{produs.nume_latin}}</td>
+	</tr>
+	<tr>
+		<th>Specie</th>
+		<td>{{produs.specie}}</td>
+	</tr>
+	<tr>
+		<th>Familie</th>
+		<td>{{produs.familie}}</td>
+	</tr>
+	<tr>
+		<th>Categorie</th>
+		<td>{{produs.categorie}}</td>
+	</tr>
+</table>
+{% endblock content %}

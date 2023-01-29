@@ -1,0 +1,71 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block head %}
+<title>Coșul meu - Florărie Mon Jardin</title>
+{% endblock head %}
+{% block breadcrumb %}
+<ul id="breadcrumb">
+	<li><a href="{% url 'index' %}" title="Acasă">Acasă</a></li>
+	<li>Coșul meu</li>
+</ul>
+{% endblock breadcrumb %}
+{% block content %}
+<h3>Coșul meu de cumpărături</h3>
+<h4>
+{% if num_art == 1 %}
+1 produs
+{% else %}
+{{num_art}} produse
+{% endif %}
+în coș
+</h4>
+<div style="overflow-x:auto;">
+	<table class="cart-list">
+		<thead>
+			<th colspan="3">Produs</th>
+			<th class="cell-centered">Cantitate</th>
+			<th class="cell-right">Preț unitar</th>
+			<th class="cell-right">Preț</th>
+		</thead>
+		<tbody>
+		{% for produs in produse %}
+			<tr>
+				<td class="cell-pic">
+					<a href="{% url 'planta' produs.url_norm produs.id %}" title="{{produs.nume}}">
+						<img src="{% static produs.poza.url %}" alt="Poză {{produs.nume | lower}}">
+					</a>
+				</td>
+				<td>
+					<a href="{% url 'planta' produs.url_norm produs.id %}" title="{{produs.nume}}">
+						{{produs.nume}}
+					</a>
+				</td>
+				<td class="cell-options">
+					<a href="{% url 'stergere_produs' produs.id %}">Ștergere produs</a>
+				</td>
+				<td class="cell-centered">{{produs.cantitate}}</td>
+				<td class="cell-right">
+					{% if produs.pret_redus %}
+					<p class="reduced-price">{{produs.pret}}  lei/buc</p>
+					<p>{{produs.pret_redus}}  lei/buc</p>
+					{% else %}
+					{{produs.pret}}  lei/buc
+					{% endif %}
+				 </td>
+				 <td class="cell-right">{{produs.pret_total}} lei</td>
+			 </tr>
+		{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5" class="cell-right">Preț total</td>
+				<td class="cell-right">{{pret_total}} lei</td>
+			</tr>
+		</tfoot>
+	</table>
+	{% if num_art > 0 %}
+	<button class="cart-pay-button" onclick="window.location.href='{% url 'plata' %}';">Spre plată</button>
+	{% endif %}
+	<button class="cart-continue-button" onclick="window.location.href='{% url 'plante' %}';">Continuare cumpărături</button>
+</div>
+{% endblock content %}

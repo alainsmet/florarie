@@ -1,0 +1,17 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block head %}
+<title>Plată - Florărie Mon Jardin</title>
+{% endblock head %}
+{% block breadcrumb %}
+<ul id="breadcrumb">
+	<li><a href="{% url 'index' %}" title="Acasă">Acasă</a></li>
+	<li>Comandă finalizată</li>
+</ul>
+{% endblock breadcrumb %}
+{% block content %}
+<h3>Comanda dvs a fost finalizată !</h3>
+<p>Vă mulțumim {{user.first_name}} pentru comanda dvs. Va fi procesată în cel mai scurt timp.</p>
+<p>Referința comenzii este : {{comanda.referinta}}</p>
+<p>Puteti accesa detaliile și statusul comenzii din <a href="{% url 'cont' %}">contul dvs.</a></p>
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block head %}
+<title>Contul meu - Florărie Mon Jardin</title>
+{% endblock head %}
+{% block breadcrumb %}
+<ul id="breadcrumb">
+	<li><a href="{% url 'index' %}" title="Acasă">Acasă</a></li>
+	<li>Contul meu</li>
+</ul>
+{% endblock breadcrumb %}
+{% block content %}
+<h3>Contul meu</h3>
+<form method="post" class="form-block-account">
+	<h4>Datele mele</h4>
+	{% if mesaj %}
+	<p class="info-message">{{mesaj}}</p>
+	{% endif %}
+	{% csrf_token %}
+	{{ formUser.as_p }}
+	<button type="submit" name="login" class="submit-button">Salvare</button>
+</form>
+<h4>Comenzile mele</h4>
+{% if comenzi|length > 0 %}
+<ul>
+{% for comanda in comenzi %}
+	<a href="{% url 'detaliu_comanda' comanda.referinta %}" class="order">
+		<li>
+			<p class="bold">Comanda {{comanda.referinta}} - plasată pe {{comanda.data_creare|date:'d.m.Y'}}</p>
+			<p>Total : {{comanda.pret_total}} lei - Metodă de plată : {{comanda.get_tip_plata_display|lower}}</p>
+			<p>Platită :
+			{% if comanda.platita == True %}
+			da (pe data de {{comanda.data_plata|date:'d.m.Y'}})
+			{% else %}
+			nu
+			{% endif %}
+			</p>
+			<p>Livrată :
+			{% if comanda.livrata == True %}
+			da (pe data de {{comanda.data_livrare|date:'d.m.Y'}})
+			{% else %}
+			nu
+			{% endif %}
+			</p>
+			<p>Produse :</p>
+			{% for item in comanda.lista_itemi %}
+			<p>{{item.cantitate}} x {{item.produs_id.nume}}</p>
+			{% endfor %}
+		</li>
+	</a>
+{% endfor %}
+</ul>
+{% else %}
+<p>Nu aveți nicio comandă facută. <a href="{% url 'plante' %}">Incepeți acum !</a></p>
+{% endif %}
+{% endblock content %}

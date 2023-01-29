@@ -1,0 +1,15 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block head %}
+<title>Contact - Florărie Mon Jardin</title>
+{% endblock head %}
+{% block breadcrumb %}
+<ul id="breadcrumb">
+	<li><a href="{% url 'index' %}" title="Acasă">Acasă</a></li>
+	<li>Contact</li>
+</ul>
+{% endblock breadcrumb %}
+{% block content %}
+<h3>Mesaj trimis !</h3>
+<p>Mesajul dvs. a fost trimis. Vom răspunde la solicitarea dvs. în cel mai scurt timp.</p>
+{% endblock content %}

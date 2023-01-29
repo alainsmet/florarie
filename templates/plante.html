@@ -1,0 +1,40 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block head %}
+<title>Toate produsele - Florărie Mon Jardin</title>
+{% endblock head %}
+{% block breadcrumb %}
+<ul id="breadcrumb">
+	<li><a href="{% url 'index' %}" title="Acasă">Acasă</a></li>
+	<li>Toate produsele</li>
+</ul>
+{% endblock breadcrumb %}
+{% block content %}
+<h3>Categorii</h3>
+<ul class="categories-list">
+{% for categorie in categorii %}
+{% if categorie.nume != '' %}
+	<li class="category">
+		<a href="{% url 'categorie' categorie.url_norm categorie.id %}" title="{{categorie.nume}}">
+			<img src="{% static categorie.poza.url %}" alt="Poză {{categorie.nume | lower}}">
+			<p>{{categorie.nume}}</p>
+		</a>
+	</li>
+{% endif %}
+{% endfor %}
+</ul>
+{% if produse_promotii|length > 0 %}
+<h3>În promoție</h3>
+<ul class="product-list">
+{% for produs in produse_promotii %}
+{% include 'bloc_produs.html' with tip="promo" %}
+{% endfor %}
+</ul>
+{% endif %}
+<h3>Toate produsele</h3>
+<ul class="product-list">
+{% for produs in produse %}
+{% include 'bloc_produs.html' with tip="normal" %}
+{% endfor %}
+</ul>
+{% endblock content %}

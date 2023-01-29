@@ -1,0 +1,59 @@
+{% load static %}
+{% load produse_extras %}
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block head %}
+		{% endblock head %}
+		<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+		<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
+		<link href='https://fonts.googleapis.com/css?family=Cinzel' rel='stylesheet'>
+		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+		<link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
+		<link rel="stylesheet" href="{% static 'reset.css' %}">
+		<link rel="stylesheet" href="{% static 'main.css' %}">
+	</head>
+	<body>
+		<div id="container">
+			<div id="header">
+				<a href="{% url 'index' %}" title="Mon Jardin - Acasă">
+					<img src="{% static 'main_logo.png' %}" alt="Logo principal">
+					<h1>Mon Jardin</h1>
+					<h2>Din pasiune pentru grădina ta !</h2>
+				</a>
+			</div>
+			<ul id="top-menu">
+				<li>
+					<a href="{% url 'cos' %}"><img src="{% static 'cart.png' %}" alt="Poza cos">Coșul meu ({{num_art}})</a>
+				</li>
+				<li><a href="{% url 'cont' %}"
+				{% if user.username %}
+				title="Salut {{user.first_name}} !"
+				{% endif %}
+				>
+				{% if user.username %}
+				{{user|initiale}} - 
+				{% endif %}
+				Contul meu</a></li>
+				{% if user.username %}
+				<li><a href="{% url 'logout' %}" class="logout">Logout</a></li>
+				{% endif %}
+			</ul>
+			<ul id="main-menu">
+				<li><a href="{% url 'index' %}" title="Acasă">Acasă</a></li>
+				<li><a href="{% url 'plante' %}" title="Toate produsele">Toate produsele</a></li>
+				<li><a href="{% url 'contact' %}" title="Contact">Contact</a></li>
+			</ul>
+			<div id="main-content">
+			{% block breadcrumb %}
+			{% endblock breadcrumb %}
+			{% block content %}
+			{% endblock content %}
+			</div>
+			<div id="footer">
+				<p>© Alain Smet - 2021</p>
+			</div>
+		</div>
+	<script src="{%static 'main.js' %}"></script>
+	</body>
+</html>
